@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/united/bootstrap.min.css">
+    <title>Edit</title>
+    <style>
+        .customborder {
+            border-radius: 2%;
+            border: 2px solid #E95420;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h3 class="text-center p-3">Edit Question <%= q.qno + 1 %> :-</h3>
+        <div style="margin: 0 auto;" class="col-12 col-md-6 col-lg-5 p-5 customborder">
+            <form action="/admin/<%= q._id %>" method="POST">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="ques" value="<%= q.question %>">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="op1" value="<%= q.op1 %>">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="op2" value="<%= q.op2 %>">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="op3" value="<%= q.op3 %>">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="op4" value="<%= q.op4 %>">
+                </div>
+                <div class="form-group">
+                    <input type="number" class="form-control" name="corrOp" value="<%= q.correctAnswer %>">
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-block btn-outline-primary" value="Update">
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

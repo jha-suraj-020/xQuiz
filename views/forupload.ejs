@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/united/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <title>Authentications</title>
+</head>
+
+<body>
+    <div class="container">
+        <h3 class="text-center p-3">Requirements</h3>
+        <form action="/forupload" method="POST" id="create-form">
+            <div class="form-group">
+                <input type="number" class="form-control" id="noQues" autocomplete="off"
+                    placeholder="Enter no of questions">
+            </div>
+            <div class="form-group">
+                <input type="number" class="form-control" id="qTime" autocomplete="off"
+                    placeholder="Enter the time for Quiz">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="subjectt" autocomplete="off"
+                    placeholder="Enter the Subject and class | ex. Maths(12)">
+            </div>
+            <div class="form-group">
+                <input type="submit" id="subButton" class="btn btn-block btn-outline-primary" value="Upload">
+            </div>
+            <a href="/upload" id="myBtn" style="display: none;">next</a>
+        </form>
+    </div>
+
+    <div class="container-fluid text-center"
+        style="background-color: rgb(226, 131, 42); padding: 8px !important; border-radius: 40%; opacity: 0.9; color: #341f97; margin-top: 200px;">
+        <div class="blinkk"> Developed By: Suraj kumar Jha & Dharmveer Kr.</div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js"
+        integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous">
+        </script>
+    <script>
+        $('#create-form').on('submit', function (event) {
+            event.preventDefault();
+
+            var noQues = document.getElementById('noQues').value;
+            var qTime = document.getElementById('qTime').value;
+            var subjectt = document.getElementById('subjectt').value;
+
+            if (!noQues || !qTime || !subjectt) {
+                alert("please fill all the details");
+            }
+            else {
+                var ok = prompt("All previous questions will be deleted.Contact Dharmveer sir if you are not sure...Do you want to continue, enter y");
+
+                if (ok == "y") {
+                    $.ajax({
+                        url: '/forupload',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ noQues: noQues, qTime: qTime, subjectt: subjectt }),
+                        success: function (response) {
+                            alert(response);
+
+                            document.getElementById("myBtn").click();
+                        },
+                        error: function () {
+                            alert("eroor occured");
+                        }
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

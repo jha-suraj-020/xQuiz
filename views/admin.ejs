@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DAV Quiz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/bootstrap.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #header {
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+            height: auto;
+        }
+
+        .row {
+            width: 100%;
+            margin: 0 !important;
+        }
+
+        .col-md-9 {
+            background-color: #e3e3e3;
+            height: 85vh;
+        }
+
+        .col-md-3 {
+            background-color: blueviolet;
+            height: 85vh;
+        }
+
+        .list {
+            font-size: 1.1em;
+        }
+
+        @media only screen and (max-width: 750px) {
+            .col-md-9 {
+                height: auto;
+            }
+
+            .col-md-3 {
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid bg-dark text-center" style="height : auto ; position: relative;">
+        <a href="/" class="btn btn-success"> Go-Back </a>
+        <h1 class="text-white" id="header">ADMIN DASHBOARD</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3 pt-5 bg-light text-center">
+            <a href="/forupload" class="list mb-4 btn btn-info"> Upload Questions</a> <br>
+            <a href="/admin/getQuestions" class="list mb-4 btn btn-info"> See/Edit Questions</a> <br>
+            <button class="list mb-4 btn btn-info" id="disable"> Disable
+                Quiz</button>
+            <button class="list mb-4 btn btn-info" id="enable"> Enable Quiz</button> <br>
+            <a href="/admin/scoreboard" class="list mb-4 btn btn-info"> Scoreboard</a> <br>
+            <button class="list mb-4 btn btn-info" id="selectz"> SelectZone</button> <br>
+            <button class="list mb-4 btn btn-info" id="putseed"> putseed</button>
+            <button class="list mb-4 btn btn-info" id="infoit"> Info</button> <br>
+            <a href="/admin/user" class="list mb-4 btn btn-info"> Students </a> <br>
+            <a href="/adminlogout" class="list mb-4 btn btn-info"> Log Out</a>
+            <p id="selectzInfo"></p>
+        </div>
+        <div class="col-md-9 p-5 text-center">
+            <div class="alert alert-danger text-center" id="outcome">
+                Don't refresh the page, it will restart the Quiz and you will lose your Progess
+            </div>
+            This is the dashboard!
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js"
+        integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous">
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script>
+        var enableBtn = document.getElementById('enable');
+        var selectz = document.getElementById('selectz');
+        var selectzInfo = document.getElementById('selectzInfo');
+        var disableBtn = document.getElementById('disable');
+        var resultCont = document.getElementById('outcome');
+        var allow = '<%- allow %>';
+
+        if (allow == "true") {
+            enableBtn.style.display = 'none';
+            disableBtn.style.display = '';
+            resultCont.textContent = "Quiz is Enabled";
+        } else {
+            enableBtn.style.display = '';
+            disableBtn.style.display = 'none';
+            resultCont.textContent = "Quiz is Disabled";
+        }
+
+        $('#selectz').on('click', function () {
+            var chooser = prompt("Enter port:");
+            if (chooser != null) {
+                $.ajax({
+                    url: '/selectz',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ chooser: chooser }),
+                    success: function (response) {
+                        // alert(response);
+                        selectzInfo.textContent = "port" + response + " selected";
+                    }
+                });
+            }
+        })
+
+        $('#putseed').on('click', function () {
+            var chooseit = prompt("Enter seed value:");
+            if (chooseit != null) {
+                $.ajax({
+                    url: '/seed',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ chooseit: chooseit }),
+                    success: function (response) {
+                        alert(response);
+                    }
+                });
+            }
+        })
+
+        $('#infoit').on('click', function () {
+            $.ajax({
+                url: '/info',
+                contentType: 'application/json',
+                success: function (response) {
+                    alert(response);
+                }
+            });
+        })
+
+        $('#enable').on('click', function () {
+            $.ajax({
+                url: '/admin/enable',
+                contentType: 'application/json',
+                success: function (response) {
+                    resultCont.textContent = response.enablelog;
+                }
+            });
+            enableBtn.style.display = 'none';
+            disableBtn.style.display = '';
+        })
+
+        $('#disable').on('click', function () {
+            $.ajax({
+                url: '/admin/disable',
+                contentType: 'application/json',
+                success: function (response) {
+                    resultCont.textContent = response.disablelog;
+                }
+            });
+            enableBtn.style.display = '';
+            disableBtn.style.display = 'none';
+        })
+    </script>
+</body>
+
+</html>

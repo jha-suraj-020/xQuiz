@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/bootstrap.css">
+    <title>users</title>
+</head>
+
+<body>
+    <h3 class="text-center bg-success text-white"><b>Registered Students</b></h3>
+    <table class="table table-striped mb-5">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Class</th>
+                <th scope="col">MobileNo.</th>
+                <th scope="col">Sec.</th>
+                <th scope="col">Admission No.</th>
+                <th scope="col">FeePaid</th>
+                <th scope="col">EditIt</th>
+                <th scope="col">DeleteIt</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% var i=1 %>
+            <% users.forEach(function(score){ %>
+            <tr>
+                <th scope="row"><%= i %></th>
+                <% i = i+ 1 %>
+                <td><%= score.name %></td>
+                <td><%= score.classs %></td>
+                <td><%= score.mobileNo %></td>
+                <td><%= score.sec %></td>
+                <td><%= score.admissionNo %></td>
+                <td><%= score.feePaid %></td>
+                <td><a class="btn btn-info" href="/admin/user/edit/<%= score._id %>">Edit</a></td>
+                <td><a class="btn btn-danger" href="/admin/user/<%= score._id %>">Delete</a></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+
+</html>

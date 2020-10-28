@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>DAV_Khunti_Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/bootstrap.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <div class="container" id="outer">
+
+        <% if (message != ''){ %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong><%= message %></strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <% } %>
+        <% if (success != ''){ %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong><%= success %></strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <% } %>
+        <div class="alert alert-danger text-center" role="alert">
+            <a href="/" class="btn btn-success"> Go-Back </a><br>
+            Don't refresh the page, it will restart the Quiz and you will lose your Progess
+        </div>
+
+        <div id="quizContainer" class="container">
+            <div id="quiz_header" class="row">
+                <div class="quiz_user col-md-10"><br>
+
+                    <h3 style="font-weight: lighter;" id="headFontDav">DAV Khunti Online Test for <%= subname %></h3>
+                </div>
+                <div class="quiz_timer col-md-2">
+                    <div id="timer"> 00 : 00</div>
+                </div>
+            </div>
+            <div class="quiz_body row" id="quiz_body">
+                <div class="col-md-9">
+                    <h2 class="question">Q<span id="qno"></span>. <span id="question"> NA</span></h2>
+                    <label class="option"><input type="radio" name="option" value="1"> <span id="opt1">NA</span></label>
+                    <label class="option"><input type="radio" name="option" value="2"> <span id="opt2">NA</span></label>
+                    <label class="option"><input type="radio" name="option" value="3"> <span id="opt3">NA</span></label>
+                    <label class="option"><input type="radio" name="option" value="4"> <span id="opt4">NA</span></label>
+                    <p>Selected Option for this Question: <button id="selectedOpn">_</button></p>
+                    <button id="prevButton" class="next-btn">Prev Question</button>
+                    <button id="nextButton" class="next-btn">Next Question</button>
+                </div>
+                <div class="col-md-3" id="selectedAns">
+                    <h4>Your Answers</h4>
+                    <% for(var i=1 ;i <= noQuestions ; i++){ %>
+                    <div style="display: inline-block; margin-right: 15px; margin-bottom: 15px;">
+                        <input type="button" value="<%= i %>" style="width: 22px;"><br>
+                        <div class="showit">_</div>
+                    </div>
+                    <% } %>
+                    <br> <br>
+                    <!-- <h4>Selection Box</h4>
+                    <div id="dont">
+                        <% for(var i=1 ;i <= noQuestions ; i++){ %>
+                        <div style="display: inline-block; margin-right: 15px;">
+                            <%= i %><br>
+                            <input type="checkbox">
+                        </div>
+                        <% } %>
+                    </div> -->
+                </div>
+            </div>
+            <div class="container text-center" id="checkCont" style="display: none;">
+                <br><br><br>
+                <h4>Verify Your Answers</h4>
+                <hr>
+                <% for(var i=1 ;i <= noQuestions ; i++){ %>
+                <div
+                    style="display: inline-block;padding: 20px; border-right: 1px solid #341f97;border-bottom: 1px solid #341f97;">
+                    <%= i %>
+                    <div class="endit" style="background-color: rgb(190, 190, 190); padding: 5px; margin-top: 5px;">
+                    </div>
+                </div>
+                <% } %>
+
+                <br><br><br>
+                <button id="goBack" class="next-btn">Go Back</button>
+                <button id="submitt" class="next-btn">Submit</button>
+            </div>
+            <div id="result" class="container result" style="display:none;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="font-size: 30px;">Result:-</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Total Questions:</td>
+                            <td id="res1">NA</td>
+                        </tr>
+                        <tr>
+                            <td>Unattempted:</td>
+                            <td id="res3">NA</td>
+                        </tr>
+                        <tr>
+                            <td>Correct Answers:</td>
+                            <td id="res2">Recorded</td>
+                        </tr>
+                        <tr>
+                            <td>Wrong Answers:</td>
+                            <td id="res6">Recorded</td>
+                        </tr>
+                        <tr>
+                            <td>Score:</td>
+                            <td id="res4">Recorded</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="res5"></div>
+                <p style="color: crimson;">Take Screenshot of this page for Your record.</p>
+                <% if(currUser.feePaid == "Yes"){ %>
+                <p style="color: rgb(7, 23, 172);">Your response has been recorded successfully and the result will be
+                    announced in
+                    the next PTM to be held soon.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid text-center mt-3"
+        style="background: linear-gradient(to right,#ebeef0,#71b280); padding: 8px !important; opacity: 0.9; border-radius: 40%;  font-weight: 600; font-size: 17px; color: #ff512f;">
+        <div class="blinkk"> Developed By: Suraj Kumar Jha & Dharmveer Kr.</div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js"
+        integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous">
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+
+    <script>
+        var currentQuestion = 0;
+        var questions;
+        var n;
+        var answerBox = [];
+
+        var startingTime = '<%- quizTime %>';
+        var feePaid = '<%- currUser.feePaid %>';
+        var time = startingTime * 60;
+
+        function getQuestions() {
+            $.ajax({
+                url: '/question',
+                contentType: 'application/json',
+                success: function (response) {
+                    questions = response.products;
+                    n = response.totalQ;
+
+                    var container = document.getElementById('quiz_body');
+                    var checkCont = document.getElementById('checkCont');
+                    var resultCont = document.getElementById('result');
+                    var res1 = document.getElementById('res1');
+                    var res2 = document.getElementById('res2');
+                    var res3 = document.getElementById('res3');
+                    var res4 = document.getElementById('res4');
+                    var res5 = document.getElementById('res5');
+                    var res6 = document.getElementById('res6');
+                    var nextButton = document.getElementById('nextButton');
+                    var questionEl = document.getElementById('question');
+                    var opt1 = document.getElementById('opt1');
+                    var opt2 = document.getElementById('opt2');
+                    var opt3 = document.getElementById('opt3');
+                    var opt4 = document.getElementById('opt4');
+                    var qno = document.getElementById('qno');
+                    var selectedOpn = document.getElementById('selectedOpn');
+                    // var checkSelector = document.querySelectorAll('input[type="checkbox"]');
+                    var showit = document.querySelectorAll('.showit');
+                    var endit = document.querySelectorAll('.endit');
+
+
+                    var timer = document.getElementById('timer');
+
+                    const timerID = setInterval(updateTimer, 1000);
+
+                    function updateTimer() {
+                        if (time <= 0) {
+                            clearInterval(timerID);
+                            container.style.display = 'none';
+                            checkCont.style.display = 'none';
+                            resultCont.style.display = '';
+                            getScore();
+                        }
+                        var minutes = Math.floor(time / 60);
+                        var seconds = time % 60;
+
+                        seconds = seconds < 10 ? '0' + seconds : seconds;
+                        minutes = minutes < 10 ? '0' + minutes : minutes;
+
+                        timer.innerHTML = minutes + " : " + seconds;
+                        time--;
+                    }
+
+                    function getScore() {
+                        $.ajax({
+                            url: '/score',
+                            contentType: 'application/json',
+                            success: function (response) {
+                                res1.textContent = response.totall;
+                                res3.textContent = response.unattempted;
+                                if (feePaid === "No") {
+                                    res2.textContent = response.score;
+                                    res6.textContent = response.wrong;
+                                    res4.textContent = response.score;
+                                }
+                                res5.innerHTML = "your Answers Questionwise: " + answerBox;
+                                return;
+                            }
+                        });
+                    };
+
+                    function loadQuestion(curr) {
+                        qno.textContent = questions[curr].qno + 1;
+                        questionEl.textContent = questions[curr].question;
+                        opt1.textContent = questions[curr].op1;
+                        opt2.textContent = questions[curr].op2;
+                        opt3.textContent = questions[curr].op3;
+                        opt4.textContent = questions[curr].op4;
+                    };
+
+                    $('input[type="radio"]').on('click', function () {
+                        var anss = this.value;
+                        selectedOpn.textContent = anss;
+                    })
+
+                    $('#submitt').on('click', function () {
+                        clearInterval(timerID);
+                        container.style.display = 'none';
+                        checkCont.style.display = 'none';
+                        resultCont.style.display = '';
+                        getScore();
+                        return;
+                    })
+
+                    $('#goBack').on('click', function () {
+                        container.style.display = '';
+                        checkCont.style.display = 'none';
+                        currentQuestion = 0;
+                        if (currentQuestion < n - 1) {
+                            nextButton.textContent = 'Next Question';
+                        } else {
+                            nextButton.textContent = 'Finish';
+                        }
+                        loadQuestion(currentQuestion);
+                        return;
+                    })
+
+                    $('input[type="button"]').on('click', function () {
+                        var pivot = this.value - 1;
+                        currentQuestion = pivot;
+                        selectedOpn.textContent = answerBox[currentQuestion];
+                        if (currentQuestion < n - 1) {
+                            nextButton.textContent = 'Next Question';
+                        } else {
+                            nextButton.textContent = 'Finish';
+                        }
+                        loadQuestion(currentQuestion);
+                    })
+
+                    $('#prevButton').on('click', function () {
+                        if (document.querySelector('input[type=radio]:checked')) {
+                            document.querySelector('input[type=radio]:checked').checked = false;
+                        }
+                        if (currentQuestion == 0) {
+                            alert("No previous Questions");
+                        } else {
+                            currentQuestion--;
+                            selectedOpn.textContent = answerBox[currentQuestion];
+                            if (currentQuestion < n - 1) {
+                                nextButton.textContent = 'Next Question';
+                            }
+                            loadQuestion(currentQuestion);
+                        }
+                    })
+
+                    $('#nextButton').on('click', function () {
+                        var selectedOption = document.querySelector('input[type=radio]:checked');
+
+                        if (!selectedOption) {
+                            currentQuestion++;
+                            selectedOpn.textContent = answerBox[currentQuestion];
+                            if (currentQuestion == n - 1) {
+                                nextButton.textContent = 'Finish';
+                            }
+                            if (currentQuestion == n) {
+                                container.style.display = 'none';
+                                checkCont.style.display = '';
+                                for (var z = 0; z < n; z++) {
+                                    endit[z].textContent = answerBox[z];
+                                }
+                                return;
+                            }
+                            loadQuestion(currentQuestion);
+                            return;
+                        }
+
+                        var answer = selectedOption.value;
+
+                        // checkSelector[currentQuestion].checked = true;
+
+                        selectedOption.checked = false;
+
+                        $.ajax({
+                            url: '/products',
+                            method: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({ answer: answer, currentQuestion: currentQuestion }),
+                            success: function (response) {
+                                // alert(response);
+                                answerBox[currentQuestion] = answer;
+                                showit[currentQuestion].textContent = answerBox[currentQuestion];
+                                currentQuestion++;
+                                selectedOpn.textContent = answerBox[currentQuestion];
+                                if (currentQuestion == n - 1) {
+                                    nextButton.textContent = 'Finish';
+                                }
+                                if (currentQuestion == n) {
+                                    container.style.display = 'none';
+                                    checkCont.style.display = '';
+                                    for (var z = 0; z < n; z++) {
+                                        endit[z].textContent = answerBox[z];
+                                    }
+                                    return;
+                                }
+                                loadQuestion(currentQuestion);
+                            },
+                            error: function (request, status, error) {
+                                alert("Error Reattempt this Question");
+                                selectedOpn.textContent = "_";
+                            }
+                        });
+                    });
+
+                    loadQuestion(currentQuestion);
+                }
+            });
+        }
+        getQuestions();
+
+    </script>
+</body>
+
+</html>

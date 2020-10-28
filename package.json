@@ -1,0 +1,27 @@
+{
+  "name": "ajax-api-tutorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jquery.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "engines": {
+    "node": "12.16.1"
+  },
+  "author": "Michael Cheng <cheng.c.mike@gmail.com> (http://michaelcheng.io)",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.15.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.5",
+    "ejs": "^3.1.2",
+    "express": "^4.13.4",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.9.10",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  }
+}

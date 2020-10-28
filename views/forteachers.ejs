@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DAV Quiz</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/bootstrap.css">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #header {
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+            height: auto;
+        }
+
+        .row {
+            width: 100%;
+            margin: 0 !important;
+        }
+
+        .col-md-9 {
+            background-color: #e3e3e3;
+            height: 81vh;
+        }
+
+        .col-md-3 {
+            background-color: blueviolet;
+            height: 81vh;
+        }
+
+        .list {
+            font-size: 1.1em;
+        }
+
+        @media only screen and (max-width: 750px) {
+            .col-md-9 {
+                height: auto;
+            }
+
+            .col-md-3 {
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body style="background-color: #e3e3e3;">
+    <div class="container-fluid bg-dark text-center" style="height : auto ; position: relative;">
+        <h1 class="text-white" id="header">TEACHERS' DASHBOARD</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3 pt-5 bg-light text-center">
+            <a href="/forupload" class="list mb-4 btn btn-info"> Upload Questions</a> <br>
+            <a href="/admin/getQuestions" class="list mb-4 btn btn-info"> See/Edit Questions</a> <br>
+            <a href="/admin/scoreboard" class="list mb-4 btn btn-info"> Scoreboard</a> <br>
+            <button class="list mb-4 btn btn-info" id="infoit"> Info</button> <br>
+            <a href="/adminlogout" class="list mb-4 btn btn-info"> Log Out</a>
+            <p id="selectzInfo"></p>
+        </div>
+        <div class="col-md-9 p-5 text-center">
+            This is the dashboard!
+        </div>
+    </div>
+
+    <div class="container-fluid text-center"
+        style="background-color: rgb(226, 131, 42); padding: 8px !important; border-radius: 40%; opacity: 0.9; color: #341f97;">
+        <div class="blinkk"> Developed By: Suraj kumar Jha & Dharmveer Kr.</div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js"
+        integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous">
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script>
+        $('#infoit').on('click', function () {
+            $.ajax({
+                url: '/info',
+                contentType: 'application/json',
+                success: function (response) {
+                    alert(response);
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>

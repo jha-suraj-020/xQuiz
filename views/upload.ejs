@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="/bootstrap.css">
+    <link rel="stylesheet" href="/style.css">
+    <title>Authentications</title>
+</head>
+
+<body>
+    <div class="container text-center" style="background-color: #ecf0f1;" id="sustainer">
+        <h1>Upload Your Quiz Questions :)</h1> <br> <br>
+
+        <form id="create-form" class="border border-info">
+            <label> Enter Question <span id="qno">1</span>:-<input style="width : 100%" type="text" id="question"
+                    autocomplete="off"></label><br><br>
+            <label>option 1:-<input style="width : 100%" type="text" id="op1" autocomplete="off"></label><br><br>
+            <label>option 2:-<input style="width : 100%" type="text" id="op2" autocomplete="off"></label><br><br>
+            <label>option 3:-<input style="width : 100%" type="text" id="op3" autocomplete="off"></label><br><br>
+            <label>option 4:-<input style="width : 100%" type="text" id="op4" autocomplete="off"></label><br><br>
+            <label>Enter correct option:-<input type="number" id="corrOp"></label> <br> <br>
+            <button id="submitButton" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <div class="container-fluid text-center"
+        style="background-color: rgb(226, 131, 42); padding: 8px !important; opacity: 0.9; color: #341f97; border-radius: 40%; margin-top: 15px;">
+        <div class="blinkk"> Developed By: Suraj Kumar Jha & Dharmveer Kr.</div>
+    </div>
+
+    <div id="result" style="display: none;">
+        <p>Done Updated All!</p>
+        <a href="/admin/getQuestions" id="myBtn">see all</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js"
+        integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous">
+        </script>
+    <script>
+        var currQ = 0;
+        var n = '<%- noQuestions %>';
+        var submitButton = document.getElementById('submitButton');
+
+        $('#create-form').on('submit', function (event) {
+
+            event.preventDefault();
+            // alert(currQ);
+            var container = document.getElementById('sustainer');
+            var resultCont = document.getElementById('result');
+            var qno = document.getElementById('qno');
+            var q = document.getElementById('question').value;
+            var op1 = document.getElementById('op1').value;
+            var op2 = document.getElementById('op2').value;
+            var op3 = document.getElementById('op3').value;
+            var op4 = document.getElementById('op4').value;
+            var corrOp = document.getElementById('corrOp').value;
+
+            if (!q || !op1 || !op2 || !op3 || !op4 || !corrOp) {
+                alert("please fill all the details");
+            }
+            else {
+                submitButton.disabled = true;
+                $.ajax({
+                    url: '/upload',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ currQ: currQ, q: q, op1: op1, op2: op2, op3: op3, op4: op4, corrOp: corrOp }),
+                    success: function (response) {
+                        alert(response);
+                        document.getElementById('question').value = '';
+                        document.getElementById('op1').value = '';
+                        document.getElementById('op2').value = '';
+                        document.getElementById('op3').value = '';
+                        document.getElementById('op4').value = '';
+                        document.getElementById('corrOp').value = '';
+                        currQ++;
+                        qno.innerHTML = currQ + 1;
+                        // alert(currQ);
+                        submitButton.disabled = false;
+                        if (currQ == n) {
+                            container.style.display = 'none';
+                            resultCont.style.display = '';
+                            document.getElementById("myBtn").click();
+                        }
+                    },
+                    error: function () {
+                        submitButton.disabled = false;
+                        alert("eroor occured");
+                    }
+                });
+            }
+        })
+    </script>
+</body>
